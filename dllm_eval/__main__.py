@@ -309,6 +309,7 @@ def parse_eval_args(parser: argparse.ArgumentParser) -> argparse.Namespace:
 
 
 def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
+    # find the args.
     if not args:
         # we allow for args to be passed externally, else we parse them ourselves
         parser = setup_parser()
@@ -378,6 +379,7 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
         else:
             args.samples = json.loads(args.samples)
 
+    # find the task file
     if args.tasks is None:
         eval_logger.error("Need to specify task to evaluate.")
         sys.exit()
@@ -446,6 +448,7 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
         cache_requests=args.cache_requests
     )
 
+    # do evaluation
     results = evaluator.simple_evaluate(
         model=args.model,
         model_args=args.model_args,
@@ -476,6 +479,7 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
         **request_caching_args,
     )
 
+    # handle results
     if results is not None:
         if args.log_samples:
             samples = results.pop("samples")

@@ -74,7 +74,7 @@ def generate(
                     eos_confs_for_avg.append(confidences[i, pos, eos_token_id].item())
             avg_conf = sum(eos_confs_for_avg) / eos_check_tokens
             batch_eos_confidences.append(avg_conf)
-        return torch.tensor(batch_eos_confidences, device=logits.device)
+        return torch.tensor(batch_eos_confidences, device=logits.device)    # (b,)
 
     with torch.autocast(device_type="cuda"):
         batch_size = prompt.shape[0]
